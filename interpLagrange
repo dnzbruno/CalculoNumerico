@@ -1,0 +1,26 @@
+import numpy as np
+
+#função que será interpolada
+def f(x):
+    return np.exp(3*x) - x**2
+
+# Definir os pontos de interpolação x e calcular y correspondente
+x = np.array([0, 5, 10])
+y = f(x)
+
+# Definir a função que encontra os coeficientes pelo método de Lagrange
+def lagrange_coef(x, y):
+    n = len(x)# n é o número de pontos de interpolação definidos no array x
+    c = np.zeros(n) # garantir que todos arrays erãaao inciar com zero
+    for j in range(n): # loop para iterar através dos pontos j
+        p = np.ones(1) # inicializar polinômio de Lagrange com 1
+        for k in range(n): # loop aninhado para iterar através dos pontos k
+            if k != j: # se k for diferente de j, construir o polinômio de Lagrange
+                p = np.convolve(p, np.array([1, -x[k]])) / (x[j] - x[k])
+        c += y[j] * p # atualizar os coeficientes do polinômio interpolador
+    return c
+
+# Imprimir coeficientes
+print("Coeficientes encontrados pelo método de Lagrange:")
+print(lagrange_coef(x, y))
+
