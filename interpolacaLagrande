@@ -1,0 +1,28 @@
+aimport numpy as np
+
+# Definindo a função interpLagrange
+def interpLagrange(xp, x, y, grau):
+  # Inicializa o valor interpolado em yp.
+  yp = 0
+  # Loop para cada valor de k no intervalo de 0 a grau+1.
+  for k in range(0, grau+1):
+    # Inicializa o valor do termo p da fórmula de Lagrange.
+    p = 1
+    # Loop para cada valor de j no intervalo de 0 a grau+1.
+    for j in range(0, grau+1):
+      if k != j:
+        # Calcula o termo (xp - x[j])/(x[k] - x[j]) da fórmula de Lagrange.
+        p = p * (xp - x[j]) / (x[k] - x[j])
+    # Adiciona o valor interpolado para o ponto k ao valor final yp.
+    yp = yp + p * y[k]
+  # Retorna o valor interpolado
+  return yp
+
+x = [0, 0.6, 0.8]
+y = [1.221, 3.32, 4.953]
+
+n  = 2
+xp = 1
+yp = interpLagrange(xp,x,y,n)
+
+print("Valor interpolado em x =", xp, ":", yp)
