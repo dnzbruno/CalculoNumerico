@@ -1,0 +1,61 @@
+import numpy as np
+import math
+
+def exponential(x):
+    """
+    Retorna a função exponencial e^x.
+
+    Args:
+        x (float): O valor de entrada da função.
+
+    Returns:
+        float: O valor da função exponencial em x.
+    """
+    return np.exp(x)
+
+def trapezoidal_rule(a, b, f):
+    """
+    Calcula a integral da função f(x) usando a regra do trapézio.
+
+    Args:
+        a (float): O limite inferior do intervalo de integração.
+        b (float): O limite superior do intervalo de integração.
+        f (function): A função a ser integrada.
+
+    Returns:
+        float: O valor aproximado da integral.
+    """
+    h = b - a
+    integral = (f(a) + f(b)) * h / 2
+    return integral
+
+def composite_trapezoidal_rule(a, b, f, n):
+    """
+    Calcula a integral da função f(x) usando a regra do trapézio composta.
+
+    Args:
+        a (float): O limite inferior do intervalo de integração.
+        b (float): O limite superior do intervalo de integração.
+        f (function): A função a ser integrada.
+        n (int): O número de subintervalos.
+
+    Returns:
+        float: O valor aproximado da integral.
+    """
+    x = np.linspace(a, b, n+1)
+    h = (b - a) / n
+    integral = (f(a) + f(b)) / 2
+    integral += np.sum(f(x[1:n])) 
+    integral *= h
+    return integral
+
+precision = float(input('Entre com a precisão: '))
+a, b = 0, 1
+max_value = exponential(b)
+n = math.ceil((12 * precision / max_value) ** 0.5)
+print("Número de subintervalos: ", n)
+integral = composite_trapezoidal_rule(a, b, exponential, n)
+error = (1/12) * np.exp(1) - integral
+print("Valor aproximado da integral: ", integral)
+print("Erro de aproximação: ", error)
+
